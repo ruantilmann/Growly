@@ -2,8 +2,8 @@ import { scoreTraces, scoreTracesWorkflow } from '@mastra/core/evals/scoreTraces
 import { Mastra } from '@mastra/core';
 import { Agent, MessageList, isSupportedLanguageModel, tryGenerateWithJsonFallback, tryStreamWithJsonFallback } from '@mastra/core/agent';
 import { e as env } from './env.mjs';
-import { analyzePlantTool } from './tools/6f1dee3a-8a82-4fcf-ba70-36171c63926d.mjs';
-import { identifyPlantTool } from './tools/2d2d503d-50e7-4fe0-be17-438b8f013c50.mjs';
+import { analyzePlantTool } from './tools/c77fcd55-33cd-42c0-9792-ed1db7a11cc4.mjs';
+import { identifyPlantTool } from './tools/7ccb3142-88d7-4147-9591-4012b84ba49c.mjs';
 import { mkdtemp, rm, readFile, writeFile, mkdir, copyFile, readdir, stat } from 'fs/promises';
 import * as https from 'https';
 import { join, resolve as resolve$2, dirname, extname, basename, isAbsolute, relative } from 'path';
@@ -49,10 +49,10 @@ const growlyGardenAgent = new Agent({
   name: "Growly Garden Agent",
   instructions: [
     "Voce e um especialista em botanica, identificacao e cultivo de plantas.",
+    "Responda sempre em portugues do Brasil (pt-BR), de forma pratica, objetiva e clara.",
     "Quando o usuario enviar imagem (base64 + mimeType), use identify-plant para identificacao e analyze-plant para diagnostico de saude.",
     "Nao invente informacoes botanicas e nao assuma localizacao geografica quando ela nao for informada.",
-    "Em identificacao, deixe o nivel de confianca explicito e, quando necessario, prefira genero/familia em vez de forcar especie.",
-    "Responda em portugues, de forma pratica e objetiva."
+    "Na identificacao, deixe o nivel de confianca explicito e, quando necessario, prefira genero/familia em vez de forcar especie."
   ].join(" "),
   model: env.MASTRA_MODEL,
   tools: {

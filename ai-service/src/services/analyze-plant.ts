@@ -126,16 +126,43 @@ export async function analyzePlant(input: z.infer<typeof analyzeInputSchema>) {
       {
         role: "system",
         content:
-          "Voce e um especialista em botanica e cultivo. Responda apenas JSON com os campos: probableSpecies, healthStatus (healthy|warning|critical|unknown), possibleDiseases (array), recommendations (array), wateringFrequencyDays (1-30), careTips (array)."
+          "Voce e um especialista senior em botanica, fitopatologia e cultivo domestico. Responda sempre em portugues do Brasil (pt-BR). Faca uma analise visual profunda da planta e responda APENAS JSON valido com os campos: probableSpecies, healthStatus (healthy|warning|critical|unknown), possibleDiseases (array), recommendations (array), wateringFrequencyDays (1-30), careTips (array). Regras obrigatorias: (1) Nao invente especie, doenca ou sintoma que nao esteja visualmente sustentado. (2) Se a imagem nao permitir identificar com seguranca, use nivel taxonomico mais amplo (genero/familia) em probableSpecies. (3) Em possibleDiseases, liste no maximo 4 hipoteses reais e objetivas; se nao houver indicio, retorne array vazio. (4) Em recommendations, priorize acoes praticas para confirmar identificacao e estabilizar a planta nas proximas 1-2 semanas. (5) Em careTips, inclua orientacoes de luz, rega, substrato, ventilacao e monitoramento de pragas/sintomas. (6) wateringFrequencyDays deve refletir o estado observado e nunca ser arbitrario."
       },
       {
         role: "user",
         content: [
           {
             type: "text",
-            text: `Analise a planta da imagem. Nome informado: ${input.plantName}. Especie sugerida: ${
-              input.speciesHint || "nao informada"
-            }. Localizacao: ${input.locationHint || "nao informada"}.`
+            text: `Faca uma analise botanica completa da planta na imagem para identificar a especie mais provavel e avaliar o estado de saude.
+
+Dados fornecidos:
+- Nome informado: ${input.plantName}
+- Especie sugerida: ${input.speciesHint || "nao informada"}
+- Localizacao/clima: ${input.locationHint || "nao informada"}
+
+Passo a passo da analise (obrigatorio):
+1) Identificacao botanica
+- Avalie morfologia visivel: formato e borda das folhas, filotaxia (arranjo), padrao de nervuras, textura, coloracao, variegacao, presenca de peciolo, caule/tronco e arquitetura geral.
+- Se houver estruturas reprodutivas, considere flor, botao, fruto e inflorescencia.
+- Considere o contexto da foto (vaso, ambiente interno/externo, porte e estagio de desenvolvimento).
+- Defina probableSpecies com o menor nivel de incerteza possivel (especie quando claro; senao, genero/familia).
+
+2) Diagnostico de saude
+- Classifique healthStatus em healthy, warning, critical ou unknown.
+- Procure evidencias de estresse: amarelecimento, necrose, manchas, queimadura solar, murcha, enrolamento, etioliacao, queda de folhas, dano mecanico, sinais de excesso/falta de agua, deficiencia nutricional e indicios de pragas/fungos.
+- Em possibleDiseases, liste somente hipoteses plausiveis com base no que esta visivel; se nao houver evidencia consistente, retorne [].
+
+3) Recomendacoes acionaveis
+- Em recommendations, traga acoes praticas para as proximas 1-2 semanas, priorizando confirmacao da identificacao e recuperacao da planta.
+- Inclua quando necessario: ajuste de rega, drenagem, iluminacao, ventilacao, inspecao do substrato/raizes, limpeza de folhas e monitoramento de progressao dos sintomas.
+- Se a imagem estiver limitada, inclua recomendacoes para coleta de dados complementares (foto das folhas frente/verso, caule, flor, close das manchas, distancia e luz melhores).
+
+4) Cuidados continuos
+- Em careTips, forneca dicas objetivas e seguras de manutencao (luz, rega, substrato, umidade, nutricao e prevencao de pragas).
+- wateringFrequencyDays deve ser coerente com o diagnostico visual, especie sugerida e contexto climatico informado.
+
+Responda apenas JSON valido no formato solicitado, sem texto adicional.
+Todo o conteudo textual retornado deve estar em portugues do Brasil (pt-BR).`
           },
           {
             type: "image_url",

@@ -60,7 +60,7 @@ async function createAgent() {
     id: "growly-care-advisor",
     name: "Growly Care Advisor",
     instructions:
-      "Voce e um especialista em cuidados de plantas. Responda SOMENTE JSON valido com os campos recommendations, careTips e wateringFrequencyDays.",
+      "Voce e um especialista em cuidados de plantas. Responda sempre em portugues do Brasil (pt-BR) e retorne SOMENTE JSON valido com os campos recommendations, careTips e wateringFrequencyDays.",
     model: resolveMastraModel()
   }) as MastraAgent;
 }
@@ -85,6 +85,7 @@ export async function enrichAnalysisWithMastra(input: EnrichInput): Promise<Anal
 
   const prompt = [
     "Analise os dados abaixo e produza recomendacoes praticas e objetivas para cultivo.",
+    "Escreva todo o conteudo em portugues do Brasil (pt-BR).",
     "Responda SOMENTE JSON com este formato:",
     '{"recommendations": ["..."], "careTips": ["..."], "wateringFrequencyDays": 7}',
     "Dados:",

@@ -14,7 +14,7 @@ const analyzeOutputSchema = z.object({
 export const analyzePlantTool = createTool({
   id: "analyze-plant",
   description:
-    "Analisa a saude da planta a partir de imagem em base64 e retorna diagnostico com recomendacoes.",
+    "Faz analise botanica aprofundada de imagem (identificacao + saude), com hipoteses diagnosticas e recomendacoes praticas de cuidado.",
   inputSchema: analyzeInputSchema,
   outputSchema: analyzeOutputSchema,
   execute: async (inputData) => {
