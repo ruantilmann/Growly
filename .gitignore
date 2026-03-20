@@ -17,8 +17,6 @@ coverage/
 !.env.example
 !**/.env.example
 
-.opencode.json
-opencode.json
 *.pem
 *.key
 *.p12
